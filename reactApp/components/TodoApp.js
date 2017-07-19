@@ -46,11 +46,18 @@ class TodoApp extends React.Component {
     })
   }
 
+  removeTodo(idx) {
+    dummyData.splice(idx, 1)
+    this.setState({
+      todos: dummyData
+    })
+  }
+
   render() {
     return (
       <div>
         <InputLine submit={(task) => this.addTodo(task)}/>
-        <TodoList todos={this.state.todos} />
+        <TodoList todos={this.state.todos} todoXClick={(idx) => this.removeTodo(idx)} />
       </div>
     )
   }
