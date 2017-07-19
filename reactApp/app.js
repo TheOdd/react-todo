@@ -24,6 +24,7 @@ class InputLine extends React.Component {
   constructor(props) {
     super(props)
   }
+  
   render() {
     return (
       <form>
@@ -42,6 +43,7 @@ class Todo extends React.Component {
   constructor(props) {
     super(props)
   }
+
   render() {
     return (
       <li>
@@ -56,10 +58,11 @@ class TodoList extends React.Component {
   constructor(props) {
     super(props)
   }
+
   render() {
     return (
       <ul>
-        {dummyData.map(task => {
+        {this.props.todos.map(task => {
           return <Todo task={task.taskText} completed={task.completed} />
         })}
       </ul>
@@ -70,12 +73,23 @@ class TodoList extends React.Component {
 class TodoApp extends React.Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      todos: []
+    }
   }
+
+  componentDidMount() {
+    this.setState({
+      todos: dummyData
+    })
+  }
+
   render() {
     return (
       <div>
         <InputLine />
-        <TodoList />
+        <TodoList todos={this.state.todos} />
       </div>
     )
   }
