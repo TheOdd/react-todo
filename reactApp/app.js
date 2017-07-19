@@ -27,8 +27,12 @@ class InputLine extends React.Component {
   render() {
     return (
       <form>
-        <input type="text"></input>
-        <button type="submit">Add todo</button>
+        <div className="form-group">
+          <div className="input-group">
+            <input type="text" className="form-control"></input>
+            <div type="submit" className="btn btn-primary input-group-addon">Add todo</div>
+          </div>
+        </div>
       </form>
     )
   }
@@ -41,7 +45,7 @@ class Todo extends React.Component {
   render() {
     return (
       <li>
-        <button>X</button>
+        <button className="btn btn-danger removeButton">X</button>
         {this.props.completed ? <strike>{this.props.task}</strike> : this.props.task}
       </li>
     )
