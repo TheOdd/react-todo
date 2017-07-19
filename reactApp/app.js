@@ -8,6 +8,20 @@ const dummyData = [
   'Get birthday present for mom'
 ]
 
+class InputLine extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <form>
+        <input type="text"></input>
+        <button type="submit">Add todo</button>
+      </form>
+    )
+  }
+}
+
 class Todo extends React.Component {
   constructor(props) {
     super(props)
@@ -37,5 +51,19 @@ class TodoList extends React.Component {
   }
 }
 
-ReactDOM.render(<TodoList />,
+class TodoApp extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>
+        <InputLine />
+        <TodoList />
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<TodoApp />,
    document.getElementById('root'));
