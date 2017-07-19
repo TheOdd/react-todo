@@ -11,7 +11,7 @@ class InputLine extends React.Component {
         <div className="form-group">
           <div className="input-group">
             <input type="text" className="form-control"></input>
-            <div type="submit" className="btn btn-primary input-group-addon">Add todo</div>
+            <div type="submit" className="btn btn-primary input-group-addon" onClick={() => this.props.submit('Test Task')}>Add todo</div>
           </div>
         </div>
       </form>
