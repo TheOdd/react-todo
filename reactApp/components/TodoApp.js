@@ -3,25 +3,6 @@ import TodoList from './TodoList';
 import InputLine from './InputLine';
 import axios from 'axios';
 
-var dummyData = [
-  {
-    taskText: 'Clean the dishes',
-    completed: false
-  },
-  {
-    taskText: 'Mow the lawn',
-    completed: true
-  },
-  {
-    taskText: 'Get groceries',
-    completed: false
-  },
-  {
-    taskText: 'Get birthday present for mom',
-    completed: true
-  }
-]
-
 const dbUrl = "http://localhost:3000/db";
 
 class TodoApp extends React.Component {
@@ -34,27 +15,19 @@ class TodoApp extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      todos: dummyData
+    axios.get(dbUrl + '/all')
+    .then(response => {
+      this.setState({
+        todos: response.data
+      })
     })
   }
 
   addTodo(task) {
-    // dummyData.push({
-    //   taskText: task,
-    //   completed: false
-    // })
-    // this.setState({
-    //   todos: dummyData
-    // })
     axios.post(dbUrl + '/add', {
       task: task
     })
     .then(response => {
-      dummyData.push({
-        taskText: response.data.task,
-        completed: response.data.completed
-      })
       this.setState({
         todos: this.state.todos.concat(response.data)
       })
@@ -62,17 +35,41 @@ class TodoApp extends React.Component {
     .catch(err => (console.log(err)))
   }
 
-  removeTodo(idx) {
-    dummyData.splice(idx, 1)
-    this.setState({
-      todos: dummyData
+  removeTodo(id) {
+    axios.post(dbUrl + '/remove', {
+      id: id
+    })
+    .then(response => {
+      var index;
+      this.state.todos.forEach((obj, idx) => {
+        if (obj.id === id) {
+          index = idx;
+        }
+      })
+      var tempTodos = this.state.todos.slice()
+      tempTodos.splice(index, 1)
+      this.setState({
+        todos: tempTodos
+      })
     })
   }
 
-  toggleCompleted(idx) {
-    dummyData[idx].completed = !dummyData[idx].completed;
-    this.setState({
-      todos: dummyData
+  toggleCompleted(id) {
+    axios.post(dbUrl + '/toggle', {
+      id: id
+    })
+    .then(response => {
+      var index;
+      this.state.todos.forEach((obj, idx) => {
+        if (obj.id === id) {
+          index = idx;
+        }
+      })
+      var tempTodos = this.state.todos.slice()
+      tempTodos.splice(index, 1, response.data)
+      this.setState({
+        todos: tempTodos
+      })
     })
   }
 
