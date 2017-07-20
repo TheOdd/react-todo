@@ -12,6 +12,16 @@ router.get('/all', (req, res) => {
     })
 });
 
+router.post('/remove', (req, res) => {
+  TodoItem.findByIdAndRemove(req.body.taskId)
+    .then(document => {
+      res.send(document);
+    })
+    .catch(error => {
+      res.send(error);
+    })
+});
+
 router.post('/add', (req, res) => {
   const testTodo = new TodoItem({
     task: req.body.task
