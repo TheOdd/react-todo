@@ -11673,7 +11673,7 @@ var TodoList = function (_React$Component) {
         'ul',
         null,
         this.props.todos.map(function (task, idx) {
-          return _react2.default.createElement(_Todo2.default, { key: todo.id, task: task.taskText, completed: task.completed, xClick: function xClick() {
+          return _react2.default.createElement(_Todo2.default, { key: task._id, task: task.task, completed: task.completed, xClick: function xClick() {
               return _this2.props.todoXClick(idx);
             }, taskClick: function taskClick() {
               return _this2.props.todoTaskClick(idx);
