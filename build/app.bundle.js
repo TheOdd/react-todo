@@ -10539,16 +10539,17 @@ var TodoApp = function (_React$Component) {
     value: function toggleCompleted(id) {
       var _this5 = this;
 
+      var index;
+      this.state.todos.forEach(function (obj, idx) {
+        if (obj._id === id) {
+          index = idx;
+        }
+      });
+      var tempTodos = this.state.todos.slice();
       _axios2.default.post(dbUrl + '/toggle', {
-        taskId: id
+        taskId: id,
+        completed: !tempTodos[index].completed
       }).then(function (response) {
-        var index;
-        _this5.state.todos.forEach(function (obj, idx) {
-          if (obj.id === id) {
-            index = idx;
-          }
-        });
-        var tempTodos = _this5.state.todos.slice();
         tempTodos.splice(index, 1, response.data);
         _this5.setState({
           todos: tempTodos
@@ -10566,8 +10567,8 @@ var TodoApp = function (_React$Component) {
         _react2.default.createElement(_InputLine2.default, { submit: function submit(task) {
             return _this6.addTodo(task);
           } }),
-        _react2.default.createElement(_TodoList2.default, { todos: this.state.todos, todoXClick: function todoXClick(idx) {
-            return _this6.removeTodo(idx);
+        _react2.default.createElement(_TodoList2.default, { todos: this.state.todos, todoXClick: function todoXClick(id) {
+            return _this6.removeTodo(id);
           }, todoTaskClick: function todoTaskClick(id) {
             return _this6.toggleCompleted(id);
           } })
@@ -11676,7 +11677,7 @@ var TodoList = function (_React$Component) {
           return _react2.default.createElement(_Todo2.default, { key: task._id, task: task.task, completed: task.completed, xClick: function xClick() {
               return _this2.props.todoXClick(task._id);
             }, taskClick: function taskClick() {
-              return _this2.props.todoTaskClick(idx);
+              return _this2.props.todoTaskClick(task._id);
             } });
         })
       );

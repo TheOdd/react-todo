@@ -22,6 +22,20 @@ router.post('/remove', (req, res) => {
     })
 });
 
+router.post('/toggle', (req, res) => {
+  TodoItem.findByIdAndUpdate(req.body.taskId, {
+      completed: req.body.completed
+    }, {
+      new: true
+    })
+    .then(document => {
+      res.send(document);
+    })
+    .catch(error => {
+      res.send(error);
+    })
+});
+
 router.post('/add', (req, res) => {
   const testTodo = new TodoItem({
     task: req.body.task

@@ -55,17 +55,18 @@ class TodoApp extends React.Component {
   }
 
   toggleCompleted(id) {
+    var index;
+    this.state.todos.forEach((obj, idx) => {
+      if (obj._id === id) {
+        index = idx;
+      }
+    })
+    var tempTodos = this.state.todos.slice()
     axios.post(dbUrl + '/toggle', {
-      taskId: id
+      taskId: id,
+      completed: !tempTodos[index].completed
     })
     .then(response => {
-      var index;
-      this.state.todos.forEach((obj, idx) => {
-        if (obj.id === id) {
-          index = idx;
-        }
-      })
-      var tempTodos = this.state.todos.slice()
       tempTodos.splice(index, 1, response.data)
       this.setState({
         todos: tempTodos
@@ -77,7 +78,7 @@ class TodoApp extends React.Component {
     return (
       <div>
         <InputLine submit={(task) => this.addTodo(task)}/>
-        <TodoList todos={this.state.todos} todoXClick={(idx) => this.removeTodo(idx)} todoTaskClick={(id) => this.toggleCompleted(id)} />
+        <TodoList todos={this.state.todos} todoXClick={(id) => this.removeTodo(id)} todoTaskClick={(id) => this.toggleCompleted(id)} />
       </div>
     )
   }
